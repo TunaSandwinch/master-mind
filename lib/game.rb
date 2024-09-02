@@ -9,7 +9,8 @@ class PlayGame
     @code = %w[R O Y G]
   end
 
-  def choose_guesser
+  def self.choose_guesser
+    puts 'would you like to be the guesser? Y/N'
     gets.chomp
   end
 end

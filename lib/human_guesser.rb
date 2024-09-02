@@ -23,7 +23,7 @@ class HumanGuesser < PlayGame
     end
   end
 
-  def guess_getter
+  def obtain_guess
     p 'put your guess seperated by spaces'
     self.guess = gets.chomp.upcase.split
   end
@@ -57,9 +57,10 @@ class HumanGuesser < PlayGame
     puts "| #{feedback[0]} | #{feedback[1]} | #{feedback[2]} | #{feedback[3]} |"
     puts ''
   end
-end
-game = HumanGuesser.new
 
-game.guess_getter
-p game.code
-game.display_feedback
+  def guesser_win?
+    return true if guess == code
+
+    false
+  end
+end
