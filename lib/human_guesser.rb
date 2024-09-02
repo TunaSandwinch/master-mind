@@ -8,8 +8,8 @@ class HumanGuesser < PlayGame
 
   def initialize
     super
-    @feedback = 'none'
     @guess = 'none'
+    @feedback = %w[None None None None]
   end
 
   def generate_code
@@ -27,10 +27,39 @@ class HumanGuesser < PlayGame
     p 'put your guess seperated by spaces'
     self.guess = gets.chomp.upcase.split
   end
-end
 
-player = HumanGuesser.new
-player.generate_code
-player.guess_getter
-p player.code
-p player.white_feedback
+  def white_feedback
+    current_index = 0
+    code.each do |code_item|
+      guess.each_index do |guess_index|
+        if code_item == guess[guess_index]
+          feedback[current_index] = 'White'
+          current_index += 1
+        end
+      end
+    end
+  end
+
+  def black_feedback
+    current_index = 0
+    code.each_index do |code_index|
+      if code[code_index] == guess[code_index]
+        feedback[current_index] = 'Black'
+        current_index += 1
+      end
+    end
+  end
+
+  def display_feedback
+    white_feedback
+    black_feedback
+    puts ''
+    puts "| #{feedback[0]} | #{feedback[1]} | #{feedback[2]} | #{feedback[3]} |"
+    puts ''
+  end
+end
+game = HumanGuesser.new
+
+game.guess_getter
+p game.code
+game.display_feedback
