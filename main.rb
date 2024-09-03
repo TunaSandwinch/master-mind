@@ -6,18 +6,18 @@ require_relative 'lib/game'
 def play_as_guesser(turns) # rubocop:disable Metrics/MethodLength
   game = HumanGuesser.new
   lives = turns
-  while turns.positive?
+  game.generate_code
+  while lives.positive?
     puts "turns left : #{lives}"
-    puts ''
-    game.generate_code
     p game.code
+    puts ''
     game.obtain_guess
     game.display_guess
     game.display_feedback
     if game.code_cracked?
       puts 'You win!, You cracked the code!'
       break
-    elsif turns == 1
+    elsif lives == 1
       puts 'You lose! you ran out of turns!'
     end
     lives -= 1

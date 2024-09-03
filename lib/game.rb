@@ -6,7 +6,7 @@ class PlayGame
 
   def initialize
     @colors = %w[R O Y G B V]
-    @code = %w[R O Y G]
+    @code = []
   end
 
   def self.choose_guesser
