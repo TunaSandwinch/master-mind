@@ -24,7 +24,11 @@ class HumanGuesser < PlayGame
   end
 
   def obtain_guess
-    p 'put your guess seperated by spaces'
+    puts 'take your guess!'
+    puts ''
+    puts '| R | O | Y | G | B | V |'
+    puts ''
+    puts 'put your guess seperated by spaces :'
     self.guess = gets.chomp.upcase.split
   end
 
@@ -32,10 +36,10 @@ class HumanGuesser < PlayGame
     current_index = 0
     code.each do |code_item|
       guess.each_index do |guess_index|
-        if code_item == guess[guess_index]
-          feedback[current_index] = 'White'
-          current_index += 1
-        end
+        next unless code_item == guess[guess_index]
+
+        feedback[current_index] = 'White'
+        current_index += 1
       end
     end
   end
@@ -43,10 +47,10 @@ class HumanGuesser < PlayGame
   def black_feedback
     current_index = 0
     code.each_index do |code_index|
-      if code[code_index] == guess[code_index]
-        feedback[current_index] = 'Black'
-        current_index += 1
-      end
+      next unless code[code_index] == guess[code_index]
+
+      feedback[current_index] = 'Black'
+      current_index += 1
     end
   end
 
@@ -56,9 +60,14 @@ class HumanGuesser < PlayGame
     puts ''
     puts "| #{feedback[0]} | #{feedback[1]} | #{feedback[2]} | #{feedback[3]} |"
     puts ''
+    self.feedback = %w[None None None None]
   end
 
-  def guesser_win?
+  def display_guess
+    puts "| #{guess[0]} | #{guess[1]} | #{guess[2]} | #{guess[3]} |"
+  end
+
+  def code_cracked?
     return true if guess == code
 
     false
