@@ -13,5 +13,15 @@ class PlayGame
     puts 'would you like to be the guesser? Y/N'
     gets.chomp
   end
-  # testing
+
+  def generate_code
+    random_num = rand(0..5)
+    if code.length < 4
+      code << colors[random_num]
+      code.uniq!
+      generate_code
+    else
+      code
+    end
+  end
 end
