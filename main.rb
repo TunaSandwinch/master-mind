@@ -9,7 +9,6 @@ def play_as_guesser(turns) # rubocop:disable Metrics/MethodLength
   game.generate_code
   while lives.positive?
     puts "turns left : #{lives}"
-    p game.code
     puts ''
     game.obtain_guess
     game.display_guess
