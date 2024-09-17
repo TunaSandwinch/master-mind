@@ -43,8 +43,8 @@ class ComputerGuesser
   end
 
   def two_right_colors?(turns) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
-    prev_guess = computer_guess
-    prev_remaining_colors = remaining_colors
+    prev_guess = computer_guess.dup
+    prev_remaining_colors = remaining_colors.dup
     if white_feedback_count == 2
       computer_guess[0] = prev_remaining_colors[0]
       computer_guess[1] = prev_remaining_colors[1]
@@ -55,8 +55,10 @@ class ComputerGuesser
       computer_guess[-1] = prev_remaining_colors[0]
       self.remaining_colors = color_pool - computer_guess
     else
-      computer_guess[0] = prev_guess[0]
+      computer_guess[0] = prev_guess[-1]
       computer_guess[1] = prev_remaining_colors[0]
+      computer_guess[2] = prev_guess[0]
+      computer_guess[3] = prev_guess[1]
       self.remaining_colors = color_pool - computer_guess
 
       return true
@@ -74,7 +76,7 @@ game.obtain_feedback
 while turns.positive?
   game.two_right_colors?(turns)
   game.display_computer_guess
-  p "remaining colors: #{game.remaining_colors}"
+  puts "remaining colors: #{game.remaining_colors}"
   game.obtain_feedback
   turns -= 1
 end
