@@ -42,41 +42,42 @@ class ComputerGuesser
     feedback.count { |item| item == 'B' }
   end
 
-  def two_right_colors?(turns) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+  def two_right_colors?(turns) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     prev_guess = computer_guess.dup
-    prev_remaining_colors = remaining_colors.dup
-    if white_feedback_count == 2
-      computer_guess[0] = prev_remaining_colors[0]
-      computer_guess[1] = prev_remaining_colors[1]
-      self.remaining_colors = color_pool - computer_guess
+    # prev_remaining_colors = remaining_colors.dup
 
-      return true
-    elsif turns == 11
-      computer_guess[-1] = prev_remaining_colors[0]
+    if white_feedback_count == 2
+      computer_guess[0] = remaining_colors[0]
+      computer_guess[1] = remaining_colors[1]
       self.remaining_colors = color_pool - computer_guess
-    else
+      true
+    elsif turns == 1
+      computer_guess[-1] = remaining_colors[0]
+      remaining_colors[0] = prev_guess[-1]
+      false
+    elsif turns == 2
       computer_guess[0] = prev_guess[-1]
-      computer_guess[1] = prev_remaining_colors[0]
+      computer_guess[1] = remaining_colors[0]
       computer_guess[2] = prev_guess[0]
       computer_guess[3] = prev_guess[1]
-      self.remaining_colors = color_pool - computer_guess
-
-      return true
+      true
+    else
+      true
     end
-    false
   end
 end
 
 game = ComputerGuesser.new
-turns = 11
+turns = 1
 game.obtain_code
-p game.computer_guess
+game.display_computer_guess
 game.obtain_feedback
+while turns <= 12
+  break if game.two_right_colors?(turns)
 
-while turns.positive?
-  game.two_right_colors?(turns)
   game.display_computer_guess
-  puts "remaining colors: #{game.remaining_colors}"
   game.obtain_feedback
-  turns -= 1
+  turns += 1
 end
+puts turns
+game.display_computer_guess
